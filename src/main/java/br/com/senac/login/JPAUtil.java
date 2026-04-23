@@ -13,12 +13,20 @@ import jakarta.persistence.Persistence;
  * @author vitor
  */
 public class JPAUtil {
-     
-    private static EntityManagerFactory emf =
-            Persistence.createEntityManagerFactory("loginPU");
+      private static EntityManagerFactory emf;
+  public static EntityManager getEntityManager() {
+      
+      
+        try {
+            if (emf == null) {
+                emf = Persistence.createEntityManagerFactory("LoginPU");
+            }
+            return emf.createEntityManager();
+        } catch (Exception e) {
+            e.printStackTrace(); // 🔥 mostra erro real
+            throw new RuntimeException("Erro ao conectar com o banco");
+        }
+    }
 
-    public static EntityManager getEntityManager() {
-        return emf.createEntityManager();
-    }  
 }
 

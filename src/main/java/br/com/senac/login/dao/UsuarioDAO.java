@@ -33,7 +33,7 @@ public class UsuarioDAO {
         EntityManager em = JPAUtil.getEntityManager();
         
         List<Usuario> lista = em.createQuery(
-                "FROM USUARIO",
+                "FROM Usuario",
                 Usuario.class).getResultList();
         em.close();
         return lista;

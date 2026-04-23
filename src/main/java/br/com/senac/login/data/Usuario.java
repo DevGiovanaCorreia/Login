@@ -5,9 +5,14 @@
 package br.com.senac.login.data;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 /**
  *
@@ -15,6 +20,7 @@ import jakarta.persistence.Id;
  */
 
 @Entity
+@Table(name = "usuario")
 public class Usuario {
      @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,6 +28,9 @@ public class Usuario {
      private String nome;
      private String email;
      private String senha;
+     
+     @ManyToOne
+     @JoinColumn(name = "id_acesso")
      private Acesso acesso;
 
     public int getId() {
