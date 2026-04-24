@@ -38,5 +38,8 @@ public class Acesso {
     }
     
     
-    
+    @Override
+public String toString() {
+    return nome;
+}
 }
