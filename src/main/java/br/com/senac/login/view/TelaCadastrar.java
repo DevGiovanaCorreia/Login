@@ -7,6 +7,7 @@ package br.com.senac.login.view;
 import br.com.senac.login.dao.AcessoDAO;
 import br.com.senac.login.dao.UsuarioDAO;
 import br.com.senac.login.data.Acesso;
+import br.com.senac.login.data.Criptografia;
 import br.com.senac.login.data.Usuario;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -25,7 +26,7 @@ public class TelaCadastrar extends javax.swing.JFrame {
      
       txtNome.setText(usuario.getNome() != null ? usuario.getNome() : "");
       txtEmail.setText(usuario.getEmail() != null ? usuario.getEmail() : "");
-      txtSenha.setText(usuario.getSenha() != null ? usuario.getSenha() : "");
+      txtSenha.setText("");
       
       carregarAcesso();
       
@@ -191,28 +192,51 @@ public class TelaCadastrar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btncadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncadastrarActionPerformed
-        UsuarioDAO dao = new UsuarioDAO();
-        
-        if(usuario == null){
-           usuario = new Usuario();
-        }
-        
-      
-      usuario.setNome(txtNome.getText());
-      usuario.setEmail(txtEmail.getText());
-      usuario.setSenha(txtSenha.getText());
-    
-      Acesso acessoSelecionado = (Acesso) cbAcesso.getSelectedItem();
-      usuario.setAcesso(acessoSelecionado);
-      
-      if(usuario.getId() == 0){
+       usuario.setNome(txtNome.getText());
+       usuario.setEmail(txtEmail.getText());
+
+    // senha digitada
+    String senha = new String(txtSenha.getPassword());
+
+    // só gera nova senha se digitou algo
+    if (!senha.isEmpty()) {
+
+        String salt = Criptografia.gerarSalt();
+
+        String senhaHash =
+                Criptografia.getMD5ComSalt(senha, salt);
+
+        usuario.setSenha(senhaHash);
+
+        usuario.setSalt(salt);
+    }
+
+    usuario.setAcesso((Acesso) cbAcesso.getSelectedItem());
+
+    UsuarioDAO dao = new UsuarioDAO();
+
+    //  ATUALIZAR
+    if (usuario.getId() != 0) {
+
+        dao.atualizar(usuario);
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Usuário atualizado com sucesso!"
+        );
+
+    } else {
+
+        // CADASTRAR
         dao.cadastrar(usuario);
-      }else{
-          dao.atualizar(usuario);
-      }
-      
-      JOptionPane.showMessageDialog(this,"Salvo com sucesso");
-      
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Usuário cadastrado com sucesso!"
+        );
+    }
+
+    limparCampos();
     }//GEN-LAST:event_btncadastrarActionPerformed
 
     /**

@@ -50,6 +50,7 @@ private void carregarLista(){
         initComponents();
         this.usuario =usuario;
         carregarLista();
+        aplicarPermissoes();
         
        
        
@@ -58,10 +59,33 @@ private void carregarLista(){
     
      public TelaPrincipal() {
         initComponents();
-      carregarLista();
+      
+    carregarLista();
+    
       
         
     }
+     
+     private void aplicarPermissoes() {
+
+    String acesso = usuario.getAcesso().getNome();
+
+    // FUNCIONARIO
+    if (acesso.equalsIgnoreCase("FUNCIONARIO")) {
+
+        btnCadastrar.setVisible(false);
+        btnEditar.setVisible(false);
+        btnExcluir.setVisible(false);
+    }
+
+    // GERENTE
+    if (acesso.equalsIgnoreCase("GERENTE")) {
+
+        btnExcluir.setVisible(false);
+    }
+
+    // ADMIN -> acesso total
+}
 
 
     /**
@@ -194,9 +218,12 @@ private void carregarLista(){
     }//GEN-LAST:event_btnExcluirActionPerformed
 
     private void btnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadastrarActionPerformed
-        TelaCadastrar tela = new TelaCadastrar(usuario);
-        tela.setVisible(true);
-        this.dispose();
+        
+    TelaCadastrar tela = new TelaCadastrar();
+
+    tela.setVisible(true);
+
+    this.dispose();
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed

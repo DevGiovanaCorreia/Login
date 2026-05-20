@@ -72,6 +72,8 @@ public class Usuario {
     public void setAcesso(Acesso acesso) {
         this.acesso = acesso;
     }
+    
+    
      
      private String salt;
 

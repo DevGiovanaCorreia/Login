@@ -15,7 +15,7 @@ import java.util.UUID;
  * @author vitor
  */
 public class Criptografia {
-       public static String gerarSalt() {
+          public static String gerarSalt() {
         return UUID.randomUUID().toString();
     }
     
@@ -37,6 +37,6 @@ public class Criptografia {
       public static String getMD5ComSalt(String senha, String salt) {
         return getMD5(salt + senha);
     }
-     
+    
      
 }
